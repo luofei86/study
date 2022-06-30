@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+		<title>Form Input Bind Demo</title>
+	</head>
+	<body>
+		<div id="step1">
+			<h5>The input demo</h5>
+			<input v-model='message' placeholder="edit me"/>
+			<p>Message is {{message}}</p>
+			<hr />
+			<h5>The textarea demo</h5>
+			<span>The input textarea message is:{{ multilineMessage }}</span>
+			<br />
+			<textarea v-model='multilineMessage'></textarea>
+			<hr />
+			<h5>The checkbox demo</h5>
+			<input type="checkbox" v-model='checked'/>
+			<label for='checkbox'>{{ checked }}</label>
+			<hr />
+			<h5>More checkbox demo</h5>
+			<span>Using program languages:</span>
+			<br />
+			<input type='checkbox' id='Java' v-model='checkedNames' value='Java'/>
+			<label for='Java'>Java</label>
+			<input type='checkbox' id='PHP' v-model='checkedNames' value='PHP'/>
+			<label for='PHP'>PHP</label>
+			<input type='checkbox' id='Vue' v-model='checkedNames' value='Vue'/>
+			<label for='Vue'>Vue</label>
+			<br />Languages:
+			<label v-for='language in checkedNames'>
+				{{ language }}
+			</label>
+			<hr />
+			<h5>The radio demo</h5>
+			<p>Which program language is your favourite?</p>
+			<input type='radio' value="java" id='java' v-model='picked'/>
+			<label>java</label>
+			<input type='radio' value="php" id='php' v-model='picked'/>
+			<label>php</label>
+			<input type='radio' value="vue" id='vue' v-model='picked'/>
+			<label>vue</label>
+			<br />
+			<p v-if='!picked'>Choosing First</p>
+			<template v-if='picked'>
+				<label >Dang...is {{ picked }}</label>
+				<input type='button' v-on:click='initChoose' value='. Choosing again.'/>
+			</template>
+			<hr />
+			<h5>The select option demo.</h5>
+			<select v-model='selected'>
+				<option disabled value=''>请选择</option>
+				<option  v-for='item in items' v-bind:value='item.key'>
+					{{ item.value }}
+				</option>
+			</select>
+			<span v-if='selected'>U choose is:{{ chooseOption }}</span>
+			<hr />
+			<h5>The multi choose select demo.</h5>
+			<select multiple v-model='multipleSelected' style='width:50px'>
+				<option>Java</option>
+				<option>Php</option>
+				<option>Vue</option>
+			</select>
+			<span>{{ multipleSelected }}</span>
+			<hr />
+			<h5>The checkbox value demo.</h5>
+			<input type='checkbox' v-model='checkboxValue' true-value='Yes' false-value='No'/>
+			<label>好好学习，天天向上。{{ checkboxValue }}</label>
+			<hr />
+			<h5>The radio value demo.</h5>
+			<input type='radio' v-model='radioValue' v-bind:value="yesObject"/>
+			<label>好好学习，天天向上。{{ radioValue }}</label>
+			<hr />
+			<h5>The lazy vue demo</h5>
+			<input type='input' v-model.lazy='msg'/>
+			<span>Msg: {{ msg }}</span>
+			<h5>The number vue demo</h5>
+			<input type='input' v-model.number='age' type="number"/>
+			<span>Your age is:{{ age }}岁</span>
+			<h5>The trim vue demo</h5>
+			<input type='input' v-model.trim='chars'/>
+			<span>Chars' length is:{{ chars.length }}</span>
+		</div>
+	</body>
+	<script>
+		var vm = new Vue({
+			el: '#step1',
+			data: {
+				message: '',
+				multilineMessage: '',
+				checked: false,
+				checkedNames: [],
+				picked: '',
+				selected: '',
+				items:[
+					{
+						key: 1,
+						value:'Java',
+					},{
+						key: 2,
+						value:'Php',
+					},{
+						key: 3,
+						value:'Vue',
+					}
+				],
+				choosed: '',
+				multipleSelected: [],
+				checkboxValue: 'No',
+				radioValue: '',
+				yesObject: {
+					id: 1,
+					value: 'yes'
+				},
+				msg: '',
+				age: '',
+				chars: ''
+			},
+			computed: {
+				chooseOption: function(){
+					for(var item in this.items){
+						if(this.selected === this.items[item].key){
+							return this.items[item].value;
+						}
+					}
+					return '';
+				}
+			},
+			methods: {
+				initChoose: function(){
+					this.picked='';
+				}
+			}
+		});
+	</script>
+</html>

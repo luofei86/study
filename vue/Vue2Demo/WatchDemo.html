@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue Watch Demo</title>		
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+	</head>
+	<body>
+		<div id="step1">
+			<span>Ask a yes/no question:</span>
+			<input v-model="question"/>
+			<br />
+			<span>{{answer}}</span>
+		</div>
+	</body>
+	<script>
+		var vm = new Vue({
+			el: '#step1',
+			data: {
+				question: '',
+				answer: ''
+			},
+			watch:{
+				question: function(){
+					this.answer = 'Wating for you to stop typing...';
+					this.getAnswer()
+				}
+			},
+			created: function(){
+				this.debouncedGetAnswer = _.debounce(this.getAnswer, 500);
+			},
+			methods:{
+				getAnswer: function(){
+					if(this.question.indexOf('?') == -1){
+						this.answer = 'Question usually contains a question mark. ;-)';
+						return;
+					}
+					this.answer = 'Thinking...';
+					var vm = this;
+					axios.get('https://yesno.wtf/api')
+					.then(function(response){
+						vm.answer = _.capitalize(response.data.answer);
+					})
+					.catch(function(error){
+						vm.answer = 'Error! Could not reach the api.' + error;
+					});
+				}
+			}
+		});
+	</script>
+</html>

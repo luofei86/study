@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue Template Synax</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="templateSynax">
+			<span v-once>{{ staticSymbol }}</span><br/>
+			<span>{{ dynamicSymbol}}</span>
+			<p>Using mustaches: {{ rawHtml }}</p>			
+			<p>Using v-html directive: <span v-html="rawHtml"></span></p>
+			<div v-bind:id="dynamicId"></div>
+			<button v-bind:disabled="isButtonDisabled">Button</button>
+			<div>
+				<span>Demo of bind with javascript expression</span>
+				<br />
+				<span>{{ dynamicId + 1 }}</span>
+				<br />
+				<span>{{ isButtonDisabled? "Button is disabled.":"Button is enabled."}}</span>
+				<br />
+				<span v-bind:id="'span_' + id">
+					I will reverse first line. {{  staticSymbol.split('').reverse().join('') }}
+				</span>
+				<br />
+				<span v-if="seen">U can see me.</span>
+				<br />
+				<a v-bind:[ab]="url">Click here to open baidu</a>
+			</div>
+			<!--the attributename should not with upper char-->
+			<a v-bind:[attrbutename]='url'>Click here to open baidu</a>
+			<form v-on:submit.prevent='onSumbit'></form>
+		</div>
+		<div id="abbr">
+			<span :id="id">id is 1 with vue : abbr</span>
+			<br />
+			<a :[key]="url">Open url with vue : abbr</a>
+			<button @click="btt">{{ msg }}</button>
+		</div>
+	</body>
+	<script>
+		var abbrvm = new Vue({
+			el: '#abbr',
+			data: {
+				id: 1,
+				key: 'href',
+				url: "https://pajkb.com",
+				msg: "Pre value"
+			},
+			methods: {
+				btt: function(){
+					this.msg = "After click value"
+				},
+				reverseMessage: function(){
+					this.msg = this.msg.split('').reverse().join('');
+				}
+			}
+		});
+		var vm = new Vue({
+			el: '#templateSynax',
+			data: {
+				dynamicSymbol: "Vue Dynamic Symbol!",
+				staticSymbol: "Vue Static Symbol!",
+				rawHtml: '<span style="color: red">This should be red.</span>',
+				dynamicId: 1 + 1,
+				isButtonDisabled: false,
+				seen: true,
+				id: 1,
+				ab: 'href',
+				attrbuten: "href",
+				attrbutename: 'href',
+				url: 'https://baidu.com',
+			}
+		});
+	</script>
+</html>

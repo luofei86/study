@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue Index Demo</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			{{ message }}
+		</div>
+		<div id='app-2'>
+			<span v-bind:title="message">
+				Hover your mouse over me for a few seccond to see my dynamically bound title.
+			</span>
+		</div>
+		<div id='app-3'>
+			<span v-if="seen" v-bind:hover='seen=!seen'>
+				Now you see me.
+			</span>
+		</div>
+		<div id='app-4'>
+			<ol>
+				<li v-for="todo in todos">
+					{{ todo.text }}
+				</li>
+			</ol>
+		</div>
+		<div id='app-5'>
+			<p>{{ message }}</p>
+			<button v-on:click="reverseMessage">
+				Reverse Message
+			</button>
+		</div>
+		<div id="app-6">
+			<p>{{ message }}</p>
+			<input v-model="message"/>
+		</div>
+		<div id="app-7">
+			<ul>
+				<todo-item v-for="item in items"
+				v-bind:item="item"
+				v-bind:itemkey="item.id"></todo-item>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript">
+		Vue.component('todo-item', {
+			props: ['item', 'itemkey'],
+			template: '<li>{{ itemkey }}: {{ item.text }}</li>'
+			
+		})
+		var app7 = new Vue({
+			el: "#app-7",
+			data: {
+				items: [
+					{id: 0, text: "蔬菜33"},
+					{id: 1, text: "奶酪22"},
+					{id: 2, text: "随便11"},
+					{id: 3, text: "随便44"}
+				]
+			}
+		});
+
+		var app6 = new Vue({
+			el: "#app-6",
+			data: {
+				message: "Test Message"
+			}
+		});
+		var app5 = new Vue({
+			el: "#app-5",
+			data: {
+				message: "Hello Vue Function"
+			},
+			methods: {
+				reverseMessage: function(){
+					this.message = this.message.split('').reverse().join('');
+				}
+			}
+		});
+		var app4 = new Vue({
+			el: '#app-4',
+			data:{
+				todos: [
+					{text: "Learn Html"},
+					{text: "Learn Css"},
+					{text: "Learn Vue"}
+				]
+			}
+		});
+		var app3 = new Vue({
+			el: '#app-3',
+			data: {
+				seen: false
+			}
+		});
+		var app = new Vue({
+			el: "#app",
+			data:{
+				message: 'Hello Vue Demo!'
+			}
+		});
+		var app2 = new Vue({
+			el: "#app-2",
+			data: {
+				message: "You loaded this page on " + new Date().toLocaleDateString()
+			}
+		})
+	</script>
+</html>

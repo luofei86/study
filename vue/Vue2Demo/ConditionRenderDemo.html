@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+		<title>The Vue Condition Render Demo</title>
+	</head>
+	<body>
+		<div id='step1'>
+			<p>Step1</p>
+			<h1 v-if='awesome'>Vue is awesome.</h1>
+			<h1 v-else>Oh no 😢</h1>
+		</div>
+		<div id='step2'>
+			<p>Step2</p>
+			<v-if-template v-if="ok"></v-if-template>
+		</div>
+		<div id='step3'>
+			<p>Step3</p>
+			<p v-if='Math.random() > 0.5'>The value is more than 0.5</p>
+			<p v-else>The value is less than 0.5</p>
+		</div>
+		<div id='step4'>
+			<p>Step4</p>
+			<input v-model="types"/>
+			<p v-if='types=== "A"'>The input Value is A</p>
+			<p v-else-if='types=== "B"'>The input Value is B</p>
+			<p v-else>The input Value is neither a nor b.</p>
+		</div>
+		<div id='step5'>
+			<p>Step5:Vue demo: v-if else on template</p>
+			<template v-if='loginType === "userName"'>
+				<label>UserName</label>
+				<input placeholder="Enter your userName"/>
+			</template>
+			<template v-else>
+				<label>Email</label>
+				<input placeholder="Enter your email"/>
+			</template>
+			<br />
+			<button v-on:click='change'>Toggle login type</button>
+		</div>
+		<div id='step6'>
+			<p>Step6: Using key to manage template</p>
+			<template v-if='loginType === "userName"'>
+				<label>UserName</label>
+				<input placeholder="Enter your userName" key="username-input"/>
+			</template>
+			<template v-else>
+				<label>Email</label>
+				<input placeholder="Enter your email" key="email-input"/>
+			</template>
+			<br />
+			<button v-on:click='change'>Toggle login type</button>
+		</div>
+		<div id='step7'>
+			<p>Step7</p>
+			<span v-show='ok'>I'm show.</span>
+		</div>
+	</body>
+	<script>
+		// import crdt from './ConditionRenderDemoTemplate.vue'
+		Vue.component('v-if-template',{
+			template: '<div><h2>Vue Condition render Demo by template.</h2></div>'
+		});
+		var vm7 = new Vue({
+			el: '#step7',
+			data : {
+				ok: 1
+			}
+		});
+		var vm6 = new Vue({
+			el: '#step6',
+			data: {
+				loginType: 'userName'
+			},
+			methods: {
+				change: function(){
+					this.loginType = this.loginType === 'userName' ? "email" : "userName";
+				}
+			}
+		});		
+		var vm5 = new Vue({
+			el: '#step5',
+			data: {
+				loginType: 'userName'
+			},
+			methods: {
+				change: function(){
+					this.loginType = this.loginType === 'userName' ? "email" : "userName";
+				}
+			}
+		});
+		var vm4 = new Vue({
+			el: '#step4',
+			data: {
+				types: 'A'
+			}
+		});
+		var vm3 = new Vue({
+			el: '#step3',
+			data: {}
+		});
+		var vm2 = new Vue({
+			el: "#step2",
+			data: {
+				ok: false
+			}
+		});
+		var vm1 = new Vue({
+			el: '#step1',
+			data: {
+				awesome: 1
+			}
+		});
+	</script>
+</html>

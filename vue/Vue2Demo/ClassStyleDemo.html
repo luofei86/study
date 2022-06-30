@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+		<title>Class Style Vue Demo</title>
+	</head>
+	<body>
+		<div id='step1'>
+			<span class='static' v-bind:class="{active:isActive, 'text-danger': hasError}">
+				Test Vue bind class expression.
+			</span>
+			<br />
+			<input v-model='isActive'/>
+			<br />
+			<span :class='bindClassObject'>Test Vue bind class object.</span>
+			<br />
+			<span :class='computedAttribute'>Test Vue class with computedAttribute</span>
+			<br />
+			<span :class='[activeClass, errorClass]'>Test Vue class with style class arrays</span>
+			<br />
+			<span :class='[isActive ? "activeClass" : "", errorClass]'>Test Vue class with style class arrays</span>
+			<br />
+			<span :class='[{activeClass: isActive}, errorClass]'>Test Vue class with style class arrays by object synax</span>
+		</div>
+		<div id='step2'>
+			<my-component class='bar foo'></my-component>
+		</div>
+		<div id='step3'>
+			<span>The Vue inline style Demo</span>
+			<br />
+			<p v-bind:style="{color: step3Color, fontSize: step3Size + 'px'}">
+				My style is control by inline style bind.
+			</p>
+		</div>
+		<div id='step4'>
+			<span>The Vue inline style Demo2</span>
+			<p :style='styleObject'>My style is control by online style class object bind.</p>
+		</div>
+		<div id='step5'>
+			<span>The Vue inline style Demo2</span>
+			<p :style='styleObject'>My style is control by online style class computed attribute bind.</p>
+		</div>
+		<div id='step6'>
+			<span>The Vue inline style Demo3</span>
+			<p :style='styleObject'>My style is control by online style class arrays bind.</p>
+		</div>
+		<div id='step7'>
+			<span>The Vue inline style Demo4</span>
+			<div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">
+				<p>Hi</p>
+			</div>
+		</div>
+	</body>
+	<script>
+		Vue.component('my-component', {
+			template: "<p class='baz boo'>Hi I'm using component</p>"
+		});
+		var vm6 = new Vue({
+			el: '#step6',
+			data: {
+				styleObject: {
+					color: 'indianred',
+					fontSize: '13px'
+				}
+				
+			}
+		});
+		var vm5 = new Vue({
+			el: '#step5',
+			computed: {
+				styleObject: function(){
+					return {
+						color: 'green',
+						fontSize: '23px'
+					}
+				}
+			}
+		});
+		var vm4 = new Vue({
+			el: '#step4',
+			data: {
+				styleObject: {
+					color: 'red',
+					fontSize: '13px'
+				}
+			}
+		});
+		var vm3 = new Vue({
+			el: '#step3',
+			data: {
+				step3Color: 'red',
+				step3Size: 29
+			}
+		});
+		var vm2 = new Vue({
+			el: '#step2',
+			data: {
+				
+			},
+		});		
+		var vm = new Vue({
+			el: '#step1',
+			data: {
+				isActive: true,
+				hasError: true,				
+				bindClassObject:{
+					active: true,
+					'text-danger': false,
+					'fcolor': true
+				},
+				activeClass: 'active',
+				errorClass: 'ferror'
+			},
+			computed: {
+				computedAttribute: function(){
+					return {
+						active: true,
+						fcolor: false,
+						fsize: true
+					}
+				}
+			}
+		})
+	</script>
+	<style>
+		.static{
+			font-size: 10px;
+		}
+		.active{
+			color: red
+		}
+		.fcolor{
+			color: blue;
+		}
+		.fsize{
+			font-size: 20px;
+		}
+		.ferror{
+			color: red
+		}
+		.bar{
+			color: darkblue;
+		}
+		.foo{
+			font-size: 20px;
+		}
+	</style>
+	
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+		<title>Array Render Vue Demo</title>
+	</head>
+	<body>
+		<div id="step1">
+			<h3>The array render vue demo by v-for</h3>
+			<ul>
+				<li>Parent Domain value----id----key-----msg</li>
+				<li v-for="(item,index) in items" :key='item.id'>
+					{{ parent }}---{{ item.id }}----{{ index }}----{{ item.message }}
+				</li>
+			</ul>
+			<h3>The array render vue demo by v-for of</h3>
+			<ul>
+				<li v-for='item of items' :key='item.id'>
+					{{item.id}}----{{item.message}}
+				</li>
+			</ul>
+			<h3>The object attribute render by in</h3>
+			<ul>
+				<li v-for="(attributeValue, attributeName, index) in objectValue">
+					{{ attributeName }}----{{ attributeValue }}
+				</li>
+			</ul>
+			<button @click='push'>Push</button>
+			<button @click='pop'>Pop</button>
+			<button @click='shift'>Shift</button>
+			<button @click='unshift'>Unshift</button>
+			<button @click='splice'>Splice</button>
+			<button @click='sort'>Sort</button>
+			<button @click='reverse'>Reverse</button>
+			
+			<br />
+			<button @click='filter'>filter</button>
+			<button @click='concat'>concat</button>
+			<button @click='slice'>slice</button>
+			
+			<h3>The array render of filter using computed</h3>
+			<ul>
+				<li v-for="item in evenItems">
+					{{item.id}}----{{item.message}}
+				</li>
+			</ul>
+			<ul>
+				<li v-for="item in oddImtes">
+					{{item.id}}----{{item.message}}
+				</li>
+			</ul>
+			<h3>The array render of filter using method</h3>
+			<ul>
+				<li v-for='item in oddFunc(items)'>
+					{{item.id}}----{{item.message}}
+				</li>
+			</ul>
+			<ul>
+				<li v-for='item in evenFunc(items)'>
+					{{item.id}}----{{item.message}}
+				</li>
+			</ul>
+			<h3>The array render of random number.</h3>
+			<ul>
+				<li v-for='n in Math.floor(Math.random() * 10)'>
+					{{ n }}
+				</li>
+			</ul>
+			<h3>The array render in template</h3>
+			<ul>
+			  <template v-for="item in items">
+				<li>{{ item.message }}</li>
+				<li class="divider" role="presentation"></li>
+			  </template>
+			</ul>
+		</div>
+		<div id='step2'>
+			<h2>Using v-for on template vue demo</h2>
+			<form v-on:submit.prevent='addNewTodo'>
+				<label for='new-todo'>Add a todo</label>
+				<input v-model='newTodoText'
+					id='new-todo'
+					placeholder="E.g. Feed the cat"/>
+				<button>Add</button>
+			</form>
+			<ul>
+				<li is='todo-item' v-for='(todo, index) in todos'
+				v-bind:key='todo.id'
+				v-bind:title='todo.title'
+				v-on:remove='todos.splice(index, 1)'></li>
+			</ul>
+		</div>
+	</body>
+	<script>
+		Vue.component('todo-item',{
+			template: '<li>\
+			{{ title }}\
+			<button v-on:click="$emit(\'remove\')">Remove</button>\
+			</li>',
+			props: ['title']
+		});
+		var vm2 = new Vue({
+			el: '#step2',
+			data: {
+				newTodoText: '',
+				todos: [
+					{
+						id: 1,
+						title: 'Do the dishes',
+					},
+					{
+						id: 2,
+						title: 'Take out the trash',
+					},
+					{
+						id: 3,
+						title: 'Mow the lawn'
+					}
+				],
+				nextTodoId: 4
+			},
+			methods: {
+				addNewTodo: function(){
+					this.todos.push({
+						id: this.nextTodoId++,
+						title: this.newTodoText
+					});
+					this.newTodoText = '';
+				}
+			}
+		});
+		// Vue.component('array-render-template', {
+		// 	template: ''
+		// })
+		var vm1 = new Vue({
+			el: '#step1',
+			data: {
+				objectValue: {
+					id: 1,
+					name: 'Luofei303',
+					company: 'PingAn Health Insurance Agency'
+				},
+				parent: "Parent",
+				items: [
+					{id: 0, message: 'Foo'},
+					{id: 1, message: 'Bzr'}
+				]
+			},
+			computed: {
+				evenItems: function(){
+					return this.items.filter(function(item){
+						return item.id % 2 === 0;
+					});
+				},
+				oddImtes: function(){
+					return this.items.filter(function(item){
+						return item.id % 2 === 1;
+					});
+				}
+			},
+			methods: {
+				push: function(){
+					var id;
+					if(this.items.length > 0){
+						this.items.sort(function(a,b){
+							return a.id - b.id;
+						});
+						id = this.items[this.items.length - 1].id + 1;
+					}else{
+						id = 1;
+					}
+					var	pushObj = {id: id, message: 'pushObj' + id};
+					this.items.push(pushObj);
+				},
+				pop: function(){
+					this.items.pop();
+				},
+				shift: function(){
+					this.items.shift();
+				},
+				unshift: function(){
+					var id;
+					if(this.items.length > 0){
+						this.items.sort(function(a,b){
+							return a.id - b.id;
+						});
+						id = this.items[this.items.length - 1].id + 1;
+					}else{
+						id = 1;
+					}
+					var	unshiftObj = {id: id, message: 'unshiftObj' + id};
+					this.items.unshift(unshiftObj);
+				},
+				splice: function(){
+					var id;
+					if(this.items.length > 0){
+						this.items.sort(function(a,b){
+							return a.id - b.id;
+						});
+						id = this.items[this.items.length - 1].id + 1;
+					}else{
+						id = 1;
+					}
+					var	spliceObj = {id: id, message: 'spliceObj' + id};
+					this.items.splice(1,0, spliceObj)
+				},
+				sort: function(){
+					this.items.sort(function(a,b){return a.id - b.id;});
+				},
+				reverse: function(){
+					this.items.reverse();
+				},
+				filter: function(){
+					var innerItems = this.items;
+					this.items = innerItems.filter(function (item){
+						return item.id % 2 === 0;
+					});
+					// this.items.filter(function (item){
+					// 	return item.id % 2 === 0;
+					// });
+				},
+				concat: function(){
+					var innerItems = this.items;
+					var id;
+					if(this.items.length > 0){
+						this.items.sort(function(a,b){
+							return a.id - b.id;
+						});
+						id = this.items[this.items.length - 1].id + 1;
+					}else{
+						id = 1;
+					}
+					var newItems = [];
+					for(var i = id; i<10;i++){
+						var	concatObj = {id: i, message: 'concatObj' + i};
+						newItems.push(concatObj);
+					}
+					this.items = innerItems.concat(newItems);
+				},
+				slice: function(){
+					var innerItems = this.items;
+					var length = this.items.length;
+					var sliceIndex = Math.random() * length;
+					console.log(length);
+					if(this.items.length > 1){
+						this.items = innerItems.slice(Math.floor(sliceIndex));
+					}
+				},
+				evenFunc: function(items){
+					return items.filter(function(item){
+						return item.id % 2 === 0;
+					});
+				},
+				oddFunc: function(items){
+					return items.filter(function(item){
+						return item.id % 2 === 1;
+					});
+				}
+			}
+		});
+	</script>
+</html>

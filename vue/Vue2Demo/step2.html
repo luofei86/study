@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue demo step2</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="step1">
+			<!-- {{ message }} -->
+			{{ a }} {{ b }}
+			<button v-on:click="a = 'bar11'">Change It</button>
+		</div>
+	</body>
+	
+	<script>
+		var data = {a: 1, b: 3};
+		var obj = {
+			foo: 'bar'
+		};
+		Object.freeze(obj);
+		var vm = new Vue({
+			el: '#step1',
+			data: data,
+			created: function(){
+				console.log("a is :" + this.a);
+			}
+		});
+		// Object.freeze(data);
+		data.a = "Hi...Vue...";
+		// vm.a = "Hi...Vue by vm Object...";
+		vm.$watch('a', function(newValue, oldValue){
+			data.b = oldValue ;
+		});
+	</script>
+</html>

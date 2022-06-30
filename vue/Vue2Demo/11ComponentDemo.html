@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+		<title>The component vue demo.</title>
+	</head>
+	<body>
+		<div id='step1'>
+			<h5>The button-counter component demo.</h5>
+			<button-counter></button-counter>
+			<button-counter></button-counter>
+			<button-counter></button-counter>
+			<hr />
+			<h5>The component pros demo</h5>
+			<blog-post title='java' v-bind:post='{title: "java", content: "Hello"}'>
+			</blog-post>
+			<blog-post v-for='post in posts' v-bind:post='post'
+				v-bind:key='post.id'></blog-post>
+			<hr />
+			<!-- <h5>The component pros object dmeo.</h5>
+			<blog-post v-for='post in posts'  v-bind:key='post.id' v-bind:post='post'></blog-post> -->
+		</div>
+	</body>
+	<script>
+		Vue.component('button-counter',{
+			data: function(){
+				return {
+					count: 0
+				}
+			},
+			template: '<button @click="count++">You click me {{ count }} times.</button>'
+		});
+		Vue.component('blog-post',{
+			props: ['title', 'post'],
+			template: '\
+			<div>\
+			<h4>{{ post.title }}</h4>\
+			<div v-html="post.content"></div>\
+			</div>'
+		})
+		var vm = new Vue({
+			el: "#step1",
+			data: {
+				posts:[
+					{id: 1, title: "Php is the best program language.", content: "<span style=\"color: red\">It's php content</span>"},
+					{id: 2, title: "Python is the best program language.", content: "<span>It's python content'</span>"},
+					{id: 3, title: "Java is the best program language.", content: "<span>It's java content'</span>"},
+				]
+			},
+			comptuted: {},
+			methods:{}
+		});
+	</script>
+</html>

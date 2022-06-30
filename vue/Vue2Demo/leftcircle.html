@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue Life Circle Demo</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="life_circle">
+			{{ aaa }}
+		</div>
+	</body>
+	<script>
+		var vm = new Vue({
+			el: "#life_circle",
+			data: {
+				aaa: "Vue Life Circle Demo"
+			},
+			beforeCreate: function(){
+				console.log("beforeCreate");
+			},
+			created: function(){
+				console.log("created");				
+			},
+			beforeMount: function(){
+				console.log("beforeMount");				
+			},
+			mounted: function(){
+				console.log("mounted");
+			},
+			beforeUpdate: function(){
+				console.log("beforeUpdate");
+			},
+			updated: function(){
+				console.log("updated");
+			},
+			activated: function(){
+				console.log("activated");
+			},
+			deactivated: function(){
+				console.log("deactivated");
+			},
+			beforeDestory: function(){
+				console.log("beforeDestory");
+			},
+			destoryed: function(){
+				console.log("destoryed");
+			},
+			errorCaptured: function(){
+				console.log("errorCaptured");
+			}
+		});
+	</script>
+</html>

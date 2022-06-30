@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+		<title>Event Handler Vue Demo</title>
+	</head>
+	<body>
+		<div id="step1">
+			<p>Step1:v-on Demo</p>
+			<button v-on:click='counter += 1'>Add 1</button>
+			<p>The button above has been clicked {{ counter }} times.</p>
+			<hr />
+		</div>
+		<div id="step2">
+			<p>Step2:v-on Using Method Demo</p>
+			<button v-on:click='greet'>Greet</button>
+			<hr />
+		</div>
+		<div id='step3'>
+			<p>Step3:v-on inline method</p>
+			<button @click='say("hi")'>Say hi</button>
+			<button @click='say("what")'>Say what</button>
+			<hr />
+		</div>
+		<div id='step4'>
+			<p>Step4:v-on inline method dom event</p>
+			<button @click='warn("Form cannot be submitted yet.",$event)'>Submit</button>
+			<hr />
+		</div>
+		<div id='step5'>
+			<p>Step5:v-on exact vue demo1</p>
+			<button @click.ctrl='clickCtrl'>Ctrl</button>
+			<button @click.alt='clickAlt'>Alt</button>			
+			<button @click.meta='clickMeta'>Meta</button>
+			<button @click.shift='clickShift'>Shift</button>
+			<br />
+			<button v-on:click.shift.exact="onlyShiftClick">Click&shift</button>
+			<button v-on:click.exact="onNoKeyboardModifiersClick">Click&NoKeyboardModifiers</button>
+			<br />
+			<label>Keyup pagedown in the input below.</label>
+			<input @keyup.page-down='pageDownInput' v-model="keyupCode"/>
+			<br />
+			<label>Keyup enter in the input below.</label>
+			<input v-on:keyup.enter='enterInput' v-model="keyupCode"/>
+			<br />
+			<label>Keyup esc in the input below.</label>
+			<input v-on:keyup.esc='escInput' v-model="keyupCode"/>
+			<br />
+			<label>Keyup space in the input below.</label>
+			<input v-on:keyup.space='spaceInput' v-model="keyupCode"/>
+			<br />
+			<label>Keyup delete in the input below.</label>
+			<input v-on:keyup.delete='deleteInput' v-model="keyupCode"/>
+			
+			 <hr />
+		</div>
+	</body>
+	<script>
+		var vm5 = new Vue({
+			el: '#step5',
+			data: {
+				keyupCode: ''
+			},
+			methods: {
+				deleteInput: function(){
+					this.keyupCode = 'delete';
+				},
+				spaceInput: function(){
+					this.keyupCode = 'space';
+				},
+				escInput: function(){
+					this.keyupCode = 'esc';
+				},
+				
+				enterInput: function(){
+					alert('Enter');
+					this.keyupCode = 'Enter';
+				},
+				clickAlt: function(){
+					alert('Click with alt');
+				},
+				clickMeta: function(){
+					alert('Click with meta');
+				},
+				clickCtrl: function(){
+					alert('Click with ctrl');
+				},				
+				clickShift: function(){
+					alert('Click with shift');
+				},
+				onlyShiftClick: function(){
+					alert('Click with shift');
+				},
+				onNoKeyboardModifiersClick: function(){
+					alert('Click with no keyboard modifiers');
+				}
+			}
+		});
+		var vm4 = new Vue({
+			el: '#step4',
+			methods: {
+				warn: function(message, event){
+					if(event){
+						event.preventDefault();
+					}
+					alert(message);
+				}
+			}
+		});
+		var vm3 = new Vue({
+			el: '#step3',
+			methods: {
+				say: function(message){
+					alert(message);
+				}
+			}
+		});
+		var vm2 = new Vue({
+			el: '#step2',
+			data: {
+				name: 'Vue.js'
+			},
+			methods: {
+				greet: function(event){
+					alert('Hello ' + this.name);
+					if(event){
+						alert(event.target.tagName);
+					}
+				}
+			}
+		});
+		var vm1 = new Vue({
+			el: '#step1',
+			data: {
+				counter: 0
+			}
+		});
+	</script>
+</html>
